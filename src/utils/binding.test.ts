@@ -159,6 +159,27 @@ describe('findSecretReentryIssues — web search keys (webSearchStoredKeys)', ()
     const entered = { webSearch: { searxngInstanceUrl: 'https://other.dev', searxngApiKey: 'k' } };
     expect(findSecretReentryIssues(input(entered, stored), guarded)).toEqual([]);
   });
+
+  it('asks for a key shared by two URLs again when either one changes (Parallel)', () => {
+    const parallel = {
+      webSearch: {
+        parallelSearchUrl: 'https://api.parallel.ai/v1/search',
+        parallelExtractUrl: 'https://api.parallel.ai/v1/extract',
+        parallelApiKeyPreview: '...abcd',
+      },
+    };
+    const moved = {
+      webSearch: { ...parallel.webSearch, parallelExtractUrl: 'https://proxy.dev/v1/extract' },
+    };
+    expect(findSecretReentryIssues(input(moved, parallel), guarded)).toEqual([
+      expect.objectContaining({
+        path: 'webSearch.parallelApiKey',
+        params: { fieldPaths: 'webSearch.parallelExtractUrl' },
+      }),
+    ]);
+    const entered = { webSearch: { ...moved.webSearch, parallelApiKey: 'k' } };
+    expect(findSecretReentryIssues(input(entered, parallel), guarded)).toEqual([]);
+  });
 });
 
 describe('findRebindingWarnings (secretRebinding)', () => {

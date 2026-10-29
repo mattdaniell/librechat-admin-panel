@@ -52,10 +52,23 @@ describe('selectedServices', () => {
       'searxng',
       'tavily',
       'keenable',
+      'parallel',
       'firecrawl',
       'jina',
       'cohere',
     ]);
+  });
+
+  it('shows Parallel once for search and scraping, with its one key and both URLs', () => {
+    const [parallel, ...rest] = selectedServices({ providers: 'parallel', scrapers: 'parallel' });
+    expect(rest).toEqual([]);
+    expect(parallel.roles).toEqual(['providers', 'scrapers']);
+    expect(parallel.credentials.map((credential) => credential.key)).toEqual([
+      'parallelApiKey',
+      'parallelSearchUrl',
+      'parallelExtractUrl',
+    ]);
+    expect(parallel.optionKeys).toEqual(['parallelSearchOptions', 'parallelScraperOptions']);
   });
 });
 
@@ -141,7 +154,7 @@ describe('WebSearchRenderer', () => {
 
   it('keeps the other services behind "Show other services"', () => {
     renderSection(WebSearchRenderer, { section: 'webSearch', yaml: YAML });
-    fireEvent.click(screen.getByRole('button', { name: 'Show other services (5)' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Show other services (6)' }));
     expect(heading(/^Serper/)).toBeInTheDocument();
     expect(heading(/^Firecrawl/)).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Hide other services' }));

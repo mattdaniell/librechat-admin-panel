@@ -63,6 +63,7 @@ const SERPER_KEY = credential('serperApiKey', 'SERPER_API_KEY', true);
 const TAVILY_KEY = credential('tavilyApiKey', 'TAVILY_API_KEY', true);
 /** Keenable works without a key; one only lifts its rate limits. */
 const KEENABLE_KEY = credential('keenableApiKey', 'KEENABLE_API_KEY', false);
+const PARALLEL_KEY = credential('parallelApiKey', 'PARALLEL_API_KEY', true);
 
 /**
  * The services each web search setting selects, and the settings each one
@@ -98,6 +99,12 @@ export const WEB_SEARCH_SERVICES: Readonly<Record<t.WebSearchCategory, t.WebSear
       credentials: [KEENABLE_KEY, credential('keenableApiUrl', 'KEENABLE_API_URL', false)],
       optionKeys: ['keenableSearchOptions'],
     },
+    {
+      value: 'parallel',
+      labelKey: 'com_config_features_service_parallel',
+      credentials: [PARALLEL_KEY, credential('parallelSearchUrl', 'PARALLEL_SEARCH_URL', false)],
+      optionKeys: ['parallelSearchOptions'],
+    },
   ],
   scrapers: [
     {
@@ -127,6 +134,12 @@ export const WEB_SEARCH_SERVICES: Readonly<Record<t.WebSearchCategory, t.WebSear
       labelKey: 'com_config_features_service_keenable',
       credentials: [KEENABLE_KEY],
       optionKeys: ['keenableScraperOptions'],
+    },
+    {
+      value: 'parallel',
+      labelKey: 'com_config_features_service_parallel',
+      credentials: [PARALLEL_KEY, credential('parallelExtractUrl', 'PARALLEL_EXTRACT_URL', false)],
+      optionKeys: ['parallelScraperOptions'],
     },
   ],
   rerankers: [

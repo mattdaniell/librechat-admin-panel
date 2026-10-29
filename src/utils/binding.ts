@@ -26,6 +26,8 @@ const WEB_SEARCH_URL_KEYS: ReadonlyArray<readonly [string, string]> = [
   ['tavilySearchUrl', 'tavilyApiKey'],
   ['tavilyExtractUrl', 'tavilyApiKey'],
   ['keenableApiUrl', 'keenableApiKey'],
+  ['parallelSearchUrl', 'parallelApiKey'],
+  ['parallelExtractUrl', 'parallelApiKey'],
 ];
 
 /** OCR's and each speech service's key, and the settings beside it that decide where it is sent. */
